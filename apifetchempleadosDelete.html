@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>API Fetch DELETE (Delete)</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>Eliminación de Empleados</h1>
+        <p id="respuesta"></p>
+        
+        <script>
+            function createNode(element) {
+                return document.createElement(element);
+            }
+
+            function append(parent, el) {
+                return parent.appendChild(el);
+            }
+
+            const respuesta = document.getElementById('respuesta');
+            const url = 'http://localhost/empleadod/5';
+
+            var request = new Request(url, {
+                method: 'DELETE',
+                headers: new Headers()
+            });
+
+            fetch(request) 
+             .then(response => { 
+                const contentType = response.headers.get('Content-Type');
+                console.log(contentType); 
+                console.log(response.status);
+                
+                return response.json();
+             })
+             .then(function(datos) {
+                let span = createNode('span');
+                span.innerHTML = datos;
+                append(respuesta, span);
+            })
+            .catch(function(error) {
+              console.log(error);
+            });;
+        </script>
+        
+    </body>
+</html>

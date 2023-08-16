@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Alta con API Fetch y FormData</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">      
+    </head>
+    <body>
+        <h3>Alta de empleados con API Fetch</h3>
+        
+        <form id="formulario" enctype="multipart/form-data" onsubmit="return enviarDatos()">
+            nombre: <input type="text" id="name" name="name" /><br/>
+            email: <input type="text" id="email" name="email" /><br/>
+            edad: <input type="text" id="age" name="age" /><br/>
+            designación: <input type="text" id="designation" name="designation" /><br/>
+            fecha: <input type="text" id="created" name="created" value="2021-10-12 12:12:15" /><br/>
+            Imagen: <input type="file" id="perfil" name="perfil" /><br/>
+            <input type="submit" name="submit" value="Alta"  /> 
+        </form>
+        
+        <p id="respuesta"></p>
+        
+        <script>
+            function createNode(element) {
+                return document.createElement(element);
+            }
+
+            function append(parent, el) {
+                return parent.appendChild(el);
+            }
+            
+            function enviarDatos() {
+                
+                const respuesta = document.getElementById('respuesta');
+                const url = 'http://localhost/UT5-apirest/empleado';
+
+                // para ser recogido mediante '$_POST' 
+                const datosForm = new FormData(document.getElementById('formulario'));
+                const perfil = document.querySelector("input[type='file']");
+                datosForm.append('perfil', perfil.files[0]);
+                
+                var request = new Request(url, {
+                    method: 'POST',
+                    body: datosForm, 
+                    headers: new Headers()
+                });
+
+                fetch(request) 
+                 .then(response => { 
+                    return response.json();
+                 })
+                 .then(function(datos) {
+                    let span = createNode('span');
+                    span.innerHTML = datos;
+                    append(respuesta, span);
+                })
+                .catch(function(error) {
+                  console.log(error);
+                }); 
+                
+                // Evitar FORM SUBMIT
+                return false;
+            }
+        </script>      
+               
+    </body>
+</html>

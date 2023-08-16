@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <form id="formu" onsubmit="return enviarDatos()">
+            Nombre: <input type="text" name="username" /><br/>
+            Fichero: <input type="file" name="foto" id="uploadinputid" /><br/>
+            <input type="submit" value="Enviar" id="uploadBtnid"/>
+        </form>
+        
+        <p id="respuesta"></p>
+        
+        <script>
+            
+            function createNode(element) {
+                return document.createElement(element);
+            }
+
+            function append(parent, el) {
+                return parent.appendChild(el);
+            }
+            
+            function enviarDatos() {
+                
+                const respuesta = document.getElementById('respuesta');
+                const uploadinput = document.getElementById('uploadinputid');
+                const uploadBtn = document.getElementById('uploadBtnid');
+              //  uploadBtn.addEventListener('click', uploadFile);
+                const url = 'http://localhost/UT5-apirest/api/recibeFile.php'; 
+                            
+                // const formData = new FormData();
+               // formData.append('avatar', uploadinput.files[0]);    
+                
+                let data = {username: "saludos"}; 
+                
+                var request = new Request(url, {
+                    method: 'POST',
+                    body: JSON.stringify(data), 
+                    headers: new Headers()
+                });
+
+                fetch(request) 
+                    .then(response => { 
+                       const contentType = response.headers.get('Content-Type');
+                       console.log(contentType); 
+                       console.log(response.status);
+
+                       return response.json();
+                    })
+                    .then(function(datos) {
+                       let span = createNode('span');
+                       span.innerHTML = "hola " + datos;
+                       append(respuesta, span);
+                   })
+                   .catch(function(error) {
+                     console.log(error);
+                   });
+                
+                return false;
+            }
+                 
+        </script>    
+            
+    </body>
+</html>

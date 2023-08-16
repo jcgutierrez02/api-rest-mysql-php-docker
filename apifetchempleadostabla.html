@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>API Fetch</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>Empleados</h1>
+        <table border="1">
+            <th>Name</th><th>Email</th><th>Age</th><th>Designation</th><th>Created</th>
+            <th>Perfil</th>
+            <tbody id="empleados"></tbody>
+        </table>
+        
+        <script>
+            function createNode(element) {
+                return document.createElement(element);
+            }
+
+            function append(parent, el) {
+              return parent.appendChild(el);
+            }
+
+            const tbody = document.getElementById('empleados');
+            const url = 'http://localhost/empleados';
+
+            fetch(url)
+            .then((resp) => resp.json())
+            .then(function(data) {
+              let empleados = data.body;
+              return empleados.map(function(empl) {
+                let fila = createNode('tr');
+                let td1 = createNode('td');
+                let td2 = createNode('td');
+                let td3 = createNode('td');
+                let td4 = createNode('td');
+                let td5 = createNode('td');
+                let td6 = createNode('td');
+                td1.innerHTML = empl.name;
+                td2.innerHTML = empl.email;
+                td3.innerHTML = empl.age;
+                td4.innerHTML = empl.designation;
+                td5.innerHTML = empl.created;
+                let imagen = createNode('img');
+                  // Pasar imagen
+                imagen.src = "data:image/png;base64," + empl.perfil;
+                imagen.width = 50;
+                imagen.height = 50;
+                append(fila, td1);
+                append(fila, td2);
+                append(fila, td3);
+                append(fila, td4);
+                append(fila, td5);
+                append(td6, imagen);
+                append(fila, td6);
+                append(tbody, fila);
+              })
+            })
+            .catch(function(error) {
+              console.log(error);
+            });
+        </script>
+        
+    </body>
+</html>

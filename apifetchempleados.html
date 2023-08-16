@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>API Fetch</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>Empleados</h1>
+        <ul id="empleados"></ul>
+        
+        <script>
+            function createNode(element) {
+                return document.createElement(element);
+            }
+
+            function append(parent, el) {
+              return parent.appendChild(el);
+            }
+
+            const ul = document.getElementById('empleados');
+            const url = 'http://localhost/empleados';
+
+            fetch(url)
+            .then((resp) => resp.json())
+            .then(function(data) {
+              let empleados = data.body;
+              return empleados.map(function(empl) {
+                let li = createNode('li');
+                let span1 = createNode('span');
+                let span2 = createNode('span');
+                let span3 = createNode('span');
+                let span4 = createNode('span');
+                let span5 = createNode('span');
+                let span6 = createNode('span');
+
+                span1.innerHTML = empl.id + ", ";
+                span2.innerHTML = empl.name + ", ";
+                span3.innerHTML = empl.email + ", ";
+                span4.innerHTML = empl.age + ", ";
+                span5.innerHTML = empl.designation + ", ";
+                span6.innerHTML = empl.created + ", ";
+              
+                append(li, span1);
+                append(li, span2);
+                append(li, span3);
+                append(li, span4);
+                append(li, span5);
+                append(li, span6);
+
+                let imagen = createNode('img');
+                  // Pasar imagen
+                imagen.src = "data:image/png;base64," + empl.perfil;
+                imagen.width = 50;
+                imagen.height = 50;
+
+                append(ul, li);
+                append(ul, imagen);
+
+              })
+            })
+            .catch(function(error) {
+              console.log(error);
+            });
+        </script>
+        
+    </body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>API Fetch POST</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>Alta Empleados</h1>
+        <p id="respuesta"></p>
+        
+        <script>
+            function createNode(element) {
+                return document.createElement(element);
+            }
+
+            function append(parent, el) {
+                return parent.appendChild(el);
+            }
+
+            const respuesta = document.getElementById('respuesta');
+            const url = 'https://flask-mongododb-restapi.vercel.app/users';
+
+            let data = {
+                "id": "2",
+				"username": "david",
+				"password": "david",
+				"email": "david@a.com"
+            };
+
+            var request = new Request(url, {
+                method: 'POST',
+                body: JSON.stringify(data), /* para 'php://input' */
+                headers: new Headers()
+            });
+
+            fetch(request) 
+             .then(response => { 
+                const contentType = response.headers.get('Content-Type');
+                console.log(contentType); 
+                console.log(response.status);
+                
+                return response.json();
+             })
+             .then(function(datos) {
+                let span = createNode('span');
+                span.innerHTML = datos;
+                append(respuesta, span);
+            })
+            .catch(function(error) {
+              console.log(error);
+            });;
+        </script>
+        
+    </body>
+</html>

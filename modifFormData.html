@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Modificación con API Fetch y FormData</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">       
+    </head>
+    <body>
+        <h3>Modificación de empleados con API Fetch y FormData</h3>
+        
+        <form id="formulario" enctype="multipart/form-data"  onsubmit="return enviarDatos()">
+            nombre: <input type="text" name="name" /><br/>
+            email: <input type="text" name="email" /><br/>
+            edad: <input type="text" name="age" /><br/>
+            designación: <input type="text" name="designation" /><br/>
+            fecha: <input type="text" name="created" value="2021-10-12 12:12:15" /><br/>
+            Imagen: <input type="file" id="perfil" name="perfil" /><br/>
+            <input type="submit" name="submit" value="Modificar"  /> 
+        </form>
+        
+        <p id="respuesta"></p>
+        
+        <div id="imagen"></div>
+        
+        <script>
+            
+            const input = document.getElementById('perfil');
+            input.addEventListener('change', e => {
+                let img = createNode('img');
+                const imageBlob = URL.createObjectURL(input.files[0]);
+                img.src = imageBlob; 
+                img.width = '100';
+                img.height = '100';
+                append(imagen, img);
+            }); 
+                
+            
+            function createNode(element) {
+                return document.createElement(element);
+            }
+
+            function append(parent, el) {
+                return parent.appendChild(el);
+            }
+       
+            function enviarDatos() {
+                
+                const respuesta = document.getElementById('respuesta');
+                const url = 'http://localhost/UT5-apirest/empleadom/8';            
+
+                // para ser recogido mediante '$_POST' 
+                const datosForm = new FormData(document.getElementById('formulario'));
+                const perfil = document.querySelector("input[type='file']");
+                datosForm.append('perfil', perfil.files[0]);
+                
+                var request = new Request(url, {
+                    method: 'POST',
+                    body: datosForm, 
+                    headers: new Headers()
+                });
+
+                fetch(request) 
+                 .then(response => { 
+                    return response.json();
+                 })
+                 .then(function(datos) {
+                    let span = createNode('span');
+                    span.innerHTML = datos;
+                    console.log(datos);
+                    append(respuesta, span);
+
+                   /* document.getElementById("repuesta").setAttribute("src", document.getElementById("perfil").files[0].name); */
+
+                })
+                .catch(function(error) {
+                    console.log(error);
+                }); 
+                
+                // Evitar FORM SUBMIT
+                return false;
+            }
+        </script>      
+               
+    </body>
+</html>
