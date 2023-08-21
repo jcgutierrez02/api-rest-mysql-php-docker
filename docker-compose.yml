@@ -5,12 +5,10 @@ services:
                 build:
                        dockerfile: Dockerfile
                        context: . 
+                volumes:
+                        - C:\Users\jcgut\Desktop\PHPDocker\src:/var/www/html
                 ports:
                         - 80:80
-                volumes:
-                        - C:\Users\jcgut\Desktop\PHPDocker/src:/var/www/html
-                links:
-                        - mariadb
         mariadb:
                 image: mariadb:10
                 volumes:
