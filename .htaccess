@@ -12,9 +12,9 @@ RewriteEngine on
 
 # El $1 es un parámetro que se corresponde con el patrón [0-9]+
 
-RewriteRule ^empleado/([0-9]+)$ api/single_read.php?id=$1
-RewriteRule ^empleados$ api/read.php
-RewriteRule ^empleado$ api/create.php
-RewriteRule ^empleadom/([0-9]+)$ api/update.php?id=$1
-RewriteRule ^empleadod/([0-9]+)$ api/delete.php?id=$1
+RewriteRule ^empleado/([0-9]+)$ src/api/single_read.php?id=$1
+RewriteRule ^empleados$ src/api/read.php
+RewriteRule ^empleado$ src/api/create.php
+RewriteRule ^empleadom/([0-9]+)$ src/api/update.php?id=$1
+RewriteRule ^empleadod/([0-9]+)$ src/api/delete.php?id=$1
 
